@@ -1,0 +1,113 @@
+<?php
+include('partials-front/nav.php');
+?>
+
+<!-- fOOD sEARCH Section Starts Here -->
+<section class="food-search text-center">
+    <div class="container">
+        <?php
+
+        //get the search keyword
+        
+        $search = $_POST['search'];
+
+        ?>
+        <h2>Foods on Your Search <a href="#" class="text-red">"
+                <?php echo $search; ?>"
+            </a></h2>
+
+    </div>
+</section>
+<!-- fOOD sEARCH Section Ends Here -->
+
+
+
+<!-- fOOD MEnu Section Starts Here -->
+<section class="food-menu">
+    <div class="container">
+        <h2 class="text-center">Food Menu</h2>
+
+        <?php
+
+        //sql query to get food based on search keyword
+        $sql = "SELECT * FROM tbl_food WHERE title LIKE '%$search%' OR description LIKE '%$search%'";
+
+        //execute the query
+        $res = mysqli_query($conn, $sql);
+
+        //count rows
+        $count = mysqli_num_rows($res);
+
+        //check whether food is available or not
+        if ($count > 0) {
+            //Food Available
+            while ($row = mysqli_fetch_assoc($res)) {
+                //get the details
+                $id = $row['id'];
+                $title = $row['title'];
+                $price = $row['price'];
+                $description = $row['description'];
+                $image_name = $row['image_name'];
+                ?>
+
+                <div class="food-menu-box">
+                    <div class="food-menu-img">
+                        <?php
+                        //check whether the image name is available or not
+                        if ($image_name == "") {
+                            // Image not available
+                            echo "<div class='error'>Image Not Available</div>";
+                        } else {
+                            //image available
+                            ?>
+                            <img src="<?php echo SITEURL; ?>images/food/<?php echo $image_name; ?>"
+                                class="img-responsive img-curve">
+
+                            <?php
+
+                        }
+                        ?>
+
+                    </div>
+
+                    <div class="food-menu-desc">
+                        <form action="manage_cart.php" method="post">
+                        <h4>
+                            <?php echo $title; ?>
+                        </h4>
+                        <p class="food-price">Rs.
+                            <?php echo $price; ?>
+                        </p>
+                        <p class="food-detail">
+                            <?php echo $description; ?>
+                        </p>
+                        <br>
+
+                        <button name="add_to_cart" class="btn btn-primary">Order Now</button>
+                        <input type="hidden" name="Item_name" value="<?php echo $title ?>">
+                            <input type="hidden" name="Price" value="<?php echo $price ?>">
+                        </form>
+                    </div>
+                </div>
+
+                <?php
+
+            }
+        } else {
+            //Food not available
+            echo "<div class='error'>Food Not Found</div>";
+        }
+        ?>
+
+
+        <div class="clearfix"></div>
+
+
+
+    </div>
+
+</section>
+<!-- fOOD Menu Section Ends Here -->
+<?php
+include('partials-front/footer.php');
+?>
