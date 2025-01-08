@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2024 at 03:19 PM
+-- Generation Time: Jan 08, 2025 at 05:56 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -37,7 +37,8 @@ CREATE TABLE `ratings` (
 --
 
 INSERT INTO `ratings` (`item_name`, `rating`) VALUES
-('            chaana', '5');
+('            chaana', '5'),
+('            chaana', '4');
 
 -- --------------------------------------------------------
 
@@ -59,7 +60,8 @@ CREATE TABLE `tbl_admin` (
 INSERT INTO `tbl_admin` (`id`, `full_name`, `username`, `password`) VALUES
 (21, 'Pratik Maharjan', 'phantom', '25969fd10cffdec58ea8fc18de76281af086d2cc'),
 (22, 'krinesh', 'kree', '832de947d262b172904ed883b08f00e8d4b2fed3'),
-(23, 'John Tamang', 'messi', 'a51dda7c7ff50b61eaea0444371f4a6a9301e501');
+(23, 'John Tamang', 'messi', 'a51dda7c7ff50b61eaea0444371f4a6a9301e501'),
+(24, 'admin', 'admin', 'f865b53623b121fd34ee5426c792e5c33af8c227');
 
 -- --------------------------------------------------------
 
@@ -107,11 +109,11 @@ CREATE TABLE `tbl_food` (
 --
 
 INSERT INTO `tbl_food` (`id`, `title`, `description`, `price`, `image_name`, `category_id`, `featured`, `active`) VALUES
-(16, '            chaana', 'khjkhhatraimithooochaaavjldj', 60.00, 'chana.jpg', 20, 'Yes', 'Yes'),
-(18, '     Paratha', 'wow', 50.00, 'paratha.jpg', 19, 'Yes', 'Yes'),
+(16, '             chaana', 'khjkhhatraimithooochaaavjldj', 60.00, 'chana.jpg', 0, 'Yes', 'Yes'),
+(18, '      Paratha', 'wow', 50.00, 'paratha.jpg', 20, 'Yes', 'Yes'),
 (20, ' Milk Tea', 'tato tato dudh chiya', 35.00, 'milktea.jpg', 21, 'Yes', 'Yes'),
 (22, ' Black Tea', 'kalo chiya', 20.00, 'tea.jpg', 21, 'Yes', 'Yes'),
-(23, 'Syabhale', 'tasteeeeeeeyyy', 500.00, 'syafaley.jpg', 19, 'Yes', 'Yes');
+(23, '  Syabhale', 'tasteeeeeeeyyy', 500.00, 'syafaley.jpg', 19, 'Yes', 'Yes');
 
 -- --------------------------------------------------------
 
@@ -125,8 +127,8 @@ CREATE TABLE `tbl_order` (
   `price` decimal(10,2) NOT NULL,
   `qty` int(11) NOT NULL,
   `total` decimal(10,2) NOT NULL,
-  `order_date` int(11) NOT NULL,
-  `status` varchar(100) NOT NULL,
+  `order_date` datetime NOT NULL,
+  `status` varchar(100) NOT NULL DEFAULT 'Pending',
   `customer_name` varchar(100) NOT NULL,
   `customer_contact` varchar(100) NOT NULL,
   `customer_email` varchar(100) NOT NULL
@@ -137,14 +139,13 @@ CREATE TABLE `tbl_order` (
 --
 
 INSERT INTO `tbl_order` (`id`, `food`, `price`, `qty`, `total`, `order_date`, `status`, `customer_name`, `customer_contact`, `customer_email`) VALUES
-(1, 'Black Tea', 20.00, 1, 20.00, 2024, 'Cancelled', 'Ram kumar', '9843635685', 'ram@gmail.com'),
-(2, 'Burger', 250.00, 2, 500.00, 2024, 'Delivered', 'krinesh maharjan', '9874563275', 'krinesh@gmail.com'),
-(3, 'Matka Tea', 65.00, 2, 130.00, 24, 'Ordered', 'Pratik Maharjan', '9874124578', 'pratik@gmail.com'),
-(4, '  chaana', 40.00, 1, 40.00, 24, 'On Delivery', 'shyam lal', '9874563214', 'shyam@gmail.com'),
-(5, 'coffee', 160.00, 2, 320.00, 2024, 'On Delivery', 'hari lal', '9851000036', 'hari@gmail.com'),
-(6, 'Matka Tea', 65.00, 2, 130.00, 2024, 'Cancelled', 'Pratik Maharjan', '9874124578', 'pratik@gmail.com'),
-(7, '            chaana', 60.00, 1, 60.00, 2024, 'Ordered', 'dasd', 'asdasd', 'asdasd@asd.dfs'),
-(8, '            chaana', 60.00, 1, 60.00, 2024, 'Ordered', 'dasd', 'sad', 'sad@dfsd');
+(1, 'Black Tea', 20.00, 1, 20.00, '0000-00-00 00:00:00', 'Cancelled', 'Ram kumar', '9843635685', 'ram@gmail.com'),
+(2, 'Burger', 250.00, 2, 500.00, '0000-00-00 00:00:00', 'Delivered', 'krinesh maharjan', '9874563275', 'krinesh@gmail.com'),
+(3, 'Matka Tea', 65.00, 2, 130.00, '0000-00-00 00:00:00', 'Ordered', 'Pratik Maharjan', '9874124578', 'pratik@gmail.com'),
+(4, '  chaana', 40.00, 1, 40.00, '0000-00-00 00:00:00', 'On Delivery', 'shyam lal', '9874563214', 'shyam@gmail.com'),
+(5, 'coffee', 160.00, 2, 320.00, '0000-00-00 00:00:00', 'On Delivery', 'hari lal', '9851000036', 'hari@gmail.com'),
+(6, 'Matka Tea', 65.00, 2, 130.00, '0000-00-00 00:00:00', 'Cancelled', 'Pratik Maharjan', '9874124578', 'pratik@gmail.com'),
+(7, '            chaana', 60.00, 1, 60.00, '0000-00-00 00:00:00', 'Ordered', 'dasd', 'asdasd', 'asdasd@asd.dfs');
 
 -- --------------------------------------------------------
 
@@ -167,7 +168,9 @@ CREATE TABLE `userdb` (
 INSERT INTO `userdb` (`Username`, `Password`, `Role`, `Phone`, `Email`) VALUES
 ('ram', 'e17e5425a021224b63e91499ff8ac491c87567db', 'on', '9860820021', 'ram@gmail.com'),
 ('sita', 'b0aeb81edeb946afc3e304838c35b76ff1d0146b', 'on', '9841635584', 'sita12@gmail.com'),
-('kree12', '70851149680838acce5d5cbcf4bf5d1611b77c99', 'on', '9808210800', 'kreemhn@gmail.com');
+('kree12', '70851149680838acce5d5cbcf4bf5d1611b77c99', 'on', '9808210800', 'kreemhn@gmail.com'),
+('mee', '2ec10e4f7cd2159e7ea65d2454f68287ecf81251', 'on', '6561', 'mee@gmail.com'),
+('krin', '501877fe4d435522253e4bc869c3df1e8debee1d', 'on', '9843365154', 'krin@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -205,7 +208,7 @@ ALTER TABLE `tbl_order`
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_category`
@@ -223,7 +226,7 @@ ALTER TABLE `tbl_food`
 -- AUTO_INCREMENT for table `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
